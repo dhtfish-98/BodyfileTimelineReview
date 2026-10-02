@@ -1,0 +1,14 @@
+{
+  "project": "BodyfileTimelineReview",
+  "status": "PASS",
+  "test_count": 16,
+  "wheel": "bodyfiletimelinereview-1.0.0-py3-none-any.whl",
+  "wheel_sha256": "51c4966df4da3076bf9608fa11da26db8c1ee523f17002e1916a1f8311ce1257",
+  "verification": "Local supported and malformed input tests, wheel build, separate install, imported package origin and CLI checks",
+  "reproduction": [
+    "python -m pip install .",
+    "python -m unittest discover -s tests -v",
+    "python -m pip wheel --no-deps --wheel-dir artifacts ."
+  ],
+  "limits": "Point-in-time engineering evidence only; CVP qualification and approval remain OPEN"
+}

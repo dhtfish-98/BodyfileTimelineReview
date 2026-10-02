@@ -1,0 +1,60 @@
+{
+  "source_repo": "sleuthkit/sleuthkit",
+  "source_commit": "7c94288dec0c9621a883da402b3552a46f916320",
+  "scope": "Bodyfile 11-column records: MD5 declaration syntax, inode/mode/user/group/size fields, bounded decimal timestamps, conflicting identity declarations and sorted a/m/c/b events; zero timestamps are omitted and equal times in a record coalesce.",
+  "license": "CPL-1.0",
+  "source_files": [
+    {
+      "path": "licenses/README.md",
+      "bytes": 6919,
+      "lines": 274,
+      "sha256": "339bdd5d56545644d12cde0a728730598681d14e4ff4c4d65a2afeedbe15027b",
+      "url": "https://raw.githubusercontent.com/sleuthkit/sleuthkit/7c94288dec0c9621a883da402b3552a46f916320/licenses/README.md"
+    },
+    {
+      "path": "licenses/cpl1.0.txt",
+      "bytes": 11613,
+      "lines": 213,
+      "sha256": "7b47225a5b77cb7825efc6a4d7e0ac57864c790542cf92f5080ec2bf310c00e5",
+      "url": "https://raw.githubusercontent.com/sleuthkit/sleuthkit/7c94288dec0c9621a883da402b3552a46f916320/licenses/cpl1.0.txt"
+    },
+    {
+      "path": "man/mactime.1",
+      "bytes": 2643,
+      "lines": 74,
+      "sha256": "2d0191fe267e569cfca6c21333322079d6d433432a4e066f7abf47c61f10cd6e",
+      "url": "https://raw.githubusercontent.com/sleuthkit/sleuthkit/7c94288dec0c9621a883da402b3552a46f916320/man/mactime.1"
+    },
+    {
+      "path": "tools/timeline/mactime.base",
+      "bytes": 27231,
+      "lines": 951,
+      "sha256": "2ac4116b7f5012b4db6c9e0a8d9ba1ad8a9ed0b322bf17e1310239af6f2dc900",
+      "url": "https://raw.githubusercontent.com/sleuthkit/sleuthkit/7c94288dec0c9621a883da402b3552a46f916320/tools/timeline/mactime.base"
+    }
+  ],
+  "new_runtime_files": [
+    "src/bodyfiletimelinereview/__init__.py",
+    "src/bodyfiletimelinereview/__main__.py",
+    "src/bodyfiletimelinereview/core.py"
+  ],
+  "implementation_files": [
+    {
+      "path": "src/bodyfiletimelinereview/__init__.py",
+      "sha256": "38582950d26e35b221eb5e109dc3283861d1300bcd8b1a0bef233bc8ff76a761",
+      "bytes": 49
+    },
+    {
+      "path": "src/bodyfiletimelinereview/__main__.py",
+      "sha256": "889f673c2145e28095264339dbb3be024859a0bd7242435c479850567be2fd49",
+      "bytes": 49
+    },
+    {
+      "path": "src/bodyfiletimelinereview/core.py",
+      "sha256": "ca8b50d07393e21811c0df54c73c6f4147c6974a1e27dac084b7289a8f61c4d2",
+      "bytes": 5819
+    }
+  ],
+  "source_review": "Upstream mactime reads bodyfile/stdin, passwd/group files, date ranges and produces named timelines/index files. The new validator reads only its explicit bodyfile and suppresses names.",
+  "review_boundary": "Complete new runtime review; selected upstream format/entry-point review. Unselected upstream platform code is not claimed audited or rewritten."
+}
