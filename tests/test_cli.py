@@ -34,6 +34,17 @@ class CliTests(unittest.TestCase):
         self.assertEqual(json.loads(r.stdout)["status"], "FAIL")
         self.assertNotIn("Traceback", r.stderr)
 
+    def test_tsk_mode_and_invalid_permission_cli(self):
+        from test_review import D
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "bodyfile.txt"
+            for mode, code in ((b"r/rrwxrwxrwx", 0), (b"rxxxxxxxxx", 1)):
+                path.write_bytes(D.replace(b"-rw-r--r--", mode))
+                result = self.run_cli(path)
+                self.assertEqual(result.returncode, code, result.stdout + result.stderr)
+                self.assertNotIn("Traceback", result.stderr)
+
     def test_read_error_private(self):
         r = self.run_cli(ROOT / "examples/nonexistent_private_path")
         self.assertEqual(r.returncode, 1)
@@ -59,3 +70,33 @@ class CliTests(unittest.TestCase):
             self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
             self.assertNotIn("Traceback", r.stderr)
             self.assertEqual(json.loads(r.stdout)["status"], "FAIL")
+
+    def test_missing_safe_read_flags_never_open(self):
+        import importlib
+        from unittest.mock import patch
+
+        core = importlib.import_module(PACKAGE + ".core")
+        with tempfile.TemporaryDirectory() as directory:
+            link = Path(directory) / "link"
+            link.symlink_to(ROOT / "examples/valid.bin")
+            for flag in ("O_NOFOLLOW", "O_NONBLOCK"):
+                for path in (ROOT / "examples/valid.bin", link):
+                    with patch.object(core.os, flag, None), patch.object(core.os, "open") as opener:
+                        with self.assertRaises(core.Unsupported):
+                            core.read_local(path)
+                        opener.assert_not_called()
+
+    def test_missing_safe_read_flags_cli_open(self):
+        with tempfile.TemporaryDirectory() as directory:
+            link = Path(directory) / "link"
+            link.symlink_to(ROOT / "examples/valid.bin")
+            for flag in ("O_NOFOLLOW", "O_NONBLOCK"):
+                code = "import os; delattr(os, '" + flag + "'); from " + PACKAGE + ".core import main; raise SystemExit(main())"
+                for path in (ROOT / "examples/valid.bin", link):
+                    result = subprocess.run([sys.executable, "-c", code, str(path)], capture_output=True, text=True, timeout=12)
+                    self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                    report = json.loads(result.stdout)
+                    self.assertEqual(report["status"], "OPEN")
+                    self.assertFalse(report["complete"])
+                    self.assertEqual(report["findings"], ["safe_local_read_flags_unavailable"])
+                    self.assertNotIn("Traceback", result.stderr)

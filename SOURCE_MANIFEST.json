@@ -51,10 +51,11 @@
     },
     {
       "path": "src/bodyfiletimelinereview/core.py",
-      "sha256": "ca8b50d07393e21811c0df54c73c6f4147c6974a1e27dac084b7289a8f61c4d2",
-      "bytes": 5819
+      "sha256": "5b6e9813e5518cfeaeec2811a1d6e92f7613a98d816beba12d630d18bcae9d2f",
+      "bytes": 6367
     }
   ],
   "source_review": "Upstream mactime reads bodyfile/stdin, passwd/group files, date ranges and produces named timelines/index files. The new validator reads only its explicit bodyfile and suppresses names.",
-  "review_boundary": "Complete new runtime review; selected upstream format/entry-point review. Unselected upstream platform code is not claimed audited or rewritten."
+  "review_boundary": "Complete new runtime review; selected upstream format/entry-point review. Unselected upstream platform code is not claimed audited or rewritten.",
+  "current_reaudit": "REAUDIT_20261002.json"
 }

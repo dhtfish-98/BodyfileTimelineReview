@@ -61,9 +61,11 @@ def inspect(data):
 
 
 def read_local(path):
-    fd = os.open(
-        path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0)
-    )
+    nofollow = getattr(os, "O_NOFOLLOW", None)
+    nonblock = getattr(os, "O_NONBLOCK", None)
+    if not isinstance(nofollow, int) or not nofollow or not isinstance(nonblock, int) or not nonblock:
+        raise Unsupported("safe_local_read_flags_unavailable")
+    fd = os.open(path, os.O_RDONLY | nofollow | nonblock)
     try:
         info = os.fstat(fd)
         require(stat.S_ISREG(info.st_mode), "regular_file_required")
@@ -90,6 +92,8 @@ def main():
     args = parser.parse_args()
     try:
         report = inspect(read_local(args.input))
+    except Unsupported as exc:
+        report = {"status": "OPEN", "complete": False, "findings": [str(exc)]}
     except (OSError, Invalid):
         report = {
             "status": "FAIL",
@@ -106,10 +110,14 @@ import re
 
 def analyze(data):
     content = text(data)
-    require(content and not content.startswith("#"), "bodyfile11_required")
+    require(content, "bodyfile11_required")
     records, events, identities = [], {}, {}
-    for line_no, line in enumerate(content.splitlines(), 1):
+    for line_no, line in enumerate(content.split("\n"), 1):
+        if line.endswith("\r"):
+            line = line[:-1]
         require(line_no <= MAX_RECORDS and len(line) <= 65536, "record_limit")
+        if not line or line.isspace() or line.startswith("#"):
+            continue
         require(line and not any(ord(c) < 32 for c in line), "invalid_line")
         fields = line.split("|")
         require(len(fields) == 11, "bodyfile_field_count")
@@ -123,7 +131,11 @@ def analyze(data):
             len(inode) <= 128 and re.fullmatch(r"[0-9]+(?:-[0-9]+)*", inode),
             "invalid_inode",
         )
-        require(re.fullmatch(r"[drlbcpshV?\-][rwxstST?\-]{9}", mode), "invalid_mode")
+        require(re.fullmatch(
+            r"(?:[drlbcpshwvV?\-]/)?[drlbcpshwvV?\-]"
+            r"[r?\-][w?\-][xsS?\-][r?\-][w?\-][xsS?\-][r?\-][w?\-][xtT?\-]",
+            mode,
+        ), "invalid_mode")
         require(
             all(re.fullmatch(r"[0-9]+", x) for x in (uid, gid, size)),
             "invalid_numeric_field",

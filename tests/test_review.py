@@ -53,3 +53,16 @@ class Tests(unittest.TestCase):
         self.assertEqual(
             inspect(D.replace(b"|42|", b"|" + b"9" * 5000 + b"|"))["status"], "FAIL"
         )
+
+    def test_tsk_extended_mode_and_permission_positions(self):
+        for mode in (b"r/rrwxrwxrwx", b"d/drwxr-xr-x", b"-/----------", b"-rwsr-Sr-T", b"v/v---------"):
+            self.assertEqual(inspect(D.replace(b"-rw-r--r--", mode))["status"], "PASS", mode)
+        for mode in (b"rxxxxxxxxx", b"rrrrrrrrrr", b"-rwtr--r--", b"r/rrrrrrrrr"):
+            self.assertEqual(inspect(D.replace(b"-rw-r--r--", mode))["status"], "FAIL", mode)
+
+    def test_comments_blank_lines_and_explicit_newlines(self):
+        report = inspect(b"# generated bodyfile\r\n\r\n" + D.replace(b"\n", b"\r\n"))
+        self.assertEqual(report["status"], "PASS")
+        self.assertEqual(report["records"][0]["line"], 3)
+        self.assertEqual(inspect(b"# comment only\n\n")["status"], "FAIL")
+        self.assertEqual(inspect(D.rstrip(b"\n") + b"\v" + D)["status"], "FAIL")
