@@ -41,21 +41,23 @@
   "implementation_files": [
     {
       "path": "src/bodyfiletimelinereview/__init__.py",
-      "sha256": "38582950d26e35b221eb5e109dc3283861d1300bcd8b1a0bef233bc8ff76a761",
-      "bytes": 49
+      "sha256": "83195ad26130090e455f71dc6ff3cb32590242cf41b4deafc618714258c7aea8",
+      "bytes": 89
     },
     {
       "path": "src/bodyfiletimelinereview/__main__.py",
-      "sha256": "889f673c2145e28095264339dbb3be024859a0bd7242435c479850567be2fd49",
-      "bytes": 49
+      "sha256": "046da302d5fcaa3abe8fa124b2c84cb85a6d11a4a9312b44cd35618a6712d496",
+      "bytes": 89
     },
     {
       "path": "src/bodyfiletimelinereview/core.py",
-      "sha256": "5b6e9813e5518cfeaeec2811a1d6e92f7613a98d816beba12d630d18bcae9d2f",
-      "bytes": 6367
+      "sha256": "d15b643a9620135f3f1be6190dab40a291c1146ed3c7cc75775aaa851cc15d63",
+      "bytes": 6407
     }
   ],
   "source_review": "Upstream mactime reads bodyfile/stdin, passwd/group files, date ranges and produces named timelines/index files. The new validator reads only its explicit bodyfile and suppresses names.",
   "review_boundary": "Complete new runtime review; selected upstream format/entry-point review. Unselected upstream platform code is not claimed audited or rewritten.",
-  "current_reaudit": "REAUDIT_20261002.json"
+  "current_reaudit": "REAUDIT_20261002.json",
+  "current_verification": "ATTRIBUTION_UPDATE_20261002.json",
+  "implementation_author": "dhtfish98"
 }

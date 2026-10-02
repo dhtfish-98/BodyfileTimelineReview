@@ -1,5 +1,7 @@
 # BodyfileTimelineReview
 
+New implementation author: **dhtfish98**. Current package version: **1.0.2**.
+
 Validates input declarations before building a private-safe incident-response timeline; it is a new format-focused project, not a rewrite of SleuthKit.
 
 ## Supported project scope
