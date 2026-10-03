@@ -1,0 +1,35 @@
+{
+  "schema": "project-build-layout.v1",
+  "project": "BodyfileTimelineReview",
+  "author": "dhtfish98",
+  "kind": "python",
+  "base_public_commit": "4a5b6b049d13abc710c4dffe195bb93cc34d4c70",
+  "restored_inputs": [
+    {
+      "original": "LICENSE",
+      "stored": "项目文档/LICENSE",
+      "sha256": "7b47225a5b77cb7825efc6a4d7e0ac57864c790542cf92f5080ec2bf310c00e5"
+    },
+    {
+      "original": "ORIGIN.md",
+      "stored": "项目文档/ORIGIN.md",
+      "sha256": "2ad1ab96b086a3252313661cdd7e6cafbd28d9a09e67b4bcde685fda170b4054"
+    },
+    {
+      "original": "README.md",
+      "stored": "项目文档/README.md",
+      "sha256": "4e39d048026785d0957475e35a3f8fa259d3834d857d9bf5f44654286169c5bf"
+    },
+    {
+      "original": "VALIDATION.md",
+      "stored": "项目文档/VALIDATION.md",
+      "sha256": "63cc4dd3b65a811f70db5cb40524daa821745631d298f149c2ef967d8eae124f"
+    },
+    {
+      "original": "examples/README.md",
+      "stored": "项目文档/examples/README.md",
+      "sha256": "dfd29fdab2ad983f9c5222b60d119a4b174783e5e03cae143d76f4972c811b31"
+    }
+  ],
+  "platform_entries": []
+}
